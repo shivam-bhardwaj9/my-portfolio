@@ -5,7 +5,7 @@ import "./Character.css";
 const FRAME_COUNT = 240;
 
 const FRAME_PATH = (index) =>
-  `/frames/frame_${String(index + 1).padStart(3, "0")}.jpg`;
+  `/frames/frame_${String(index + 1).padStart(3, "0")}_no_bg.png`;
 
 export default function Character() {
   const canvasRef = useRef(null);
