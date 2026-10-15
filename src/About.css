@@ -1,0 +1,219 @@
+/* =========================================
+   ABOUT SECTION
+   Uses the same variables as Portfolio.css
+========================================= */
+
+.ab-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+  margin-top: 48px;
+}
+
+/* ---------- Left column ---------- */
+
+.ab-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ab-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ab-photo__glow {
+  position: absolute;
+  left: 50%;
+  bottom: -20%;
+  width: 120%;
+  aspect-ratio: 1;
+  translate: -50% 0;
+
+  background: radial-gradient(
+    circle,
+    rgba(230, 40, 50, 0.5) 0%,
+    rgba(170, 18, 36, 0.25) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.ab-photo__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+  object-position: top center;
+  will-change: transform;
+}
+
+.ab-facts {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ab-facts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(14, 5, 8, 0.75);
+}
+
+.ab-facts span {
+  color: var(--pf-muted);
+  font-size: 0.9rem;
+}
+
+.ab-facts strong {
+  color: var(--pf-fg);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ---------- Right column ---------- */
+
+.ab-main {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  min-width: 0;
+}
+
+.ab-bio {
+  display: grid;
+  gap: 16px;
+}
+
+.pf-section .ab-bio p {
+  max-width: 62ch;
+  color: var(--pf-muted);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.75;
+}
+
+.pf-section .ab-bio p:first-child {
+  color: var(--pf-fg);
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.6;
+}
+
+/* Stats */
+.ab-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ab-stat {
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ab-stat__value {
+  display: flex;
+  align-items: baseline;
+  color: var(--pf-accent);
+  font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ab-stat__label {
+  margin-top: 8px;
+  color: var(--pf-muted);
+  font-size: 0.88rem;
+}
+
+/* What I do */
+.ab-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ab-card {
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.ab-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pf-accent);
+  background: rgba(255, 90, 79, 0.06);
+}
+
+.ab-card h3 {
+  margin: 0 0 8px;
+  color: var(--pf-fg);
+  font-size: 1.05rem;
+}
+
+.pf-section .ab-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+  .ab-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ab-side {
+    max-width: 420px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .ab-stats,
+  .ab-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ab-stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .ab-stat__label {
+    margin-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ab-card {
+    transition: none;
+  }
+}

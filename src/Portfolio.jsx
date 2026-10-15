@@ -11,6 +11,7 @@ import TextMorph from "./TextMorph.jsx";
 import SectionHeading from "./SectionHeading.jsx";
 import Footer from "./Footer.jsx";
 import Navbar from "./Navbar.jsx";
+import About from "./About.jsx";
 // Images are imported (not written as "/src/assets/...") so they also work
 // after "npm run build" and on Vercel.
 import mePhoto from "./assets/me.png";
@@ -258,7 +259,9 @@ export default function Portfolio() {
             </div>
           </div>
         </section>
-
+        <section id="about" className="pf-section">
+          <About/>
+        </section>
         <section className="pf-projects-wrapper">
           <Projects />
         </section>
