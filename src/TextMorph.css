@@ -1,0 +1,53 @@
+/* Wrapper. It sits inline, like a normal word inside a heading or paragraph. */
+.tm-root {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* The box the visible letters live in. Its width is animated by GSAP. */
+.tm-stage {
+  position: relative;
+  display: block;
+  height: 1.25em;
+  min-width: 1ch;
+  line-height: 1.25;
+  white-space: pre;
+}
+
+/* One visible letter. GSAP moves it with "x". */
+.tm-letter {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  white-space: pre;
+  line-height: inherit;
+  transform-origin: 50% 85%;
+  will-change: transform, opacity;
+}
+
+/* Invisible copies of the words, used only for measuring */
+.tm-ghost {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: pre;
+  line-height: 1.25;
+}
+
+/* Text for screen readers (visually hidden) */
+.tm-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

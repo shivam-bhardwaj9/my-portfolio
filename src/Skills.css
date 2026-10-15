@@ -1,0 +1,126 @@
+/* Skills section styles. Uses the colour variables from .pf (--pf-accent, --pf-bg, --pf-fg). */
+/* ---------- Skills section ---------- */
+.pf-skills {
+  
+}
+
+.pf-skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.pf-skill-card {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: translate 0.3s ease, border-color 0.3s ease;
+}
+
+.pf-skill-card:hover {
+  translate: 0 -4px;
+  border-color: rgba(255, 90, 79, 0.5);
+}
+
+/* red spotlight that follows the mouse (--mx / --my are set in JavaScript) */
+.pf-skill-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    280px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 90, 79, 0.22),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.pf-skill-card:hover::before {
+  opacity: 1;
+}
+
+.pf-skill-card h3 {
+  position: relative;
+  margin: 0 0 20px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.pf-skill-card ul {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pf-chip {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--pf-fg);
+  font-size: 0.92rem;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pf-chip:hover {
+  background: var(--pf-accent);
+  border-color: var(--pf-accent);
+  color: var(--pf-bg);
+}
+
+/* Endless strip of skill names */
+.pf-marquee {
+  margin-top: 56px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.pf-marquee__track {
+  display: flex;
+  width: max-content;
+  gap: 40px;
+  padding-right: 40px; /* same as the gap, so the loop has no jump */
+  animation: pf-marquee 32s linear infinite;
+}
+
+.pf-marquee__track span {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  font-size: clamp(1.6rem, 3.6vw, 2.8rem);
+  font-weight: 800;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
+}
+
+/* small red dot between the words */
+.pf-marquee__track span::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pf-accent);
+}
+
+.pf-marquee:hover .pf-marquee__track {
+  animation-play-state: paused;
+}
+
+/* the list is repeated twice, so moving by half loops it without a jump */
+@keyframes pf-marquee {
+  to { transform: translateX(-50%); }
+}

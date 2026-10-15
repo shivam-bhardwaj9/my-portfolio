@@ -1,0 +1,78 @@
+/* handwriting / signature font (italic script) */
+@import url("https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap");
+
+.sig {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #0a0a0a;
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* slides up and away when finished */
+.sig--leave {
+  transform: translateY(-100%);
+}
+
+.sig__svg {
+  width: min(86vw, 820px);
+  height: auto;
+  overflow: visible;
+}
+
+.sig__text {
+  font-family: "Mrs Saint Delafield", "Snell Roundhand", cursive;
+  font-style: italic;
+  font-size: 150px;
+  white-space: pre;
+}
+
+/* each letter is drawn as an outline, then filled in */
+.sig__letter {
+  fill: transparent;
+  stroke: #fff;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 700;
+  stroke-dashoffset: 700;
+  animation:
+    sig-draw 1s cubic-bezier(0.45, 0, 0.25, 1) forwards,
+    sig-fill 0.5s ease forwards;
+  animation-delay: var(--d), calc(var(--d) + 0.75s);
+}
+
+/* red pen flourish */
+.sig__line {
+  fill: none;
+  stroke: #ff2d2d;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 6px #ff2d2d);
+  animation: sig-line 0.9s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+  animation-delay: var(--d);
+}
+
+@keyframes sig-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes sig-fill {
+  to { fill: #fff; stroke-width: 0.4; }
+}
+
+@keyframes sig-line {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sig__letter,
+  .sig__line {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+}

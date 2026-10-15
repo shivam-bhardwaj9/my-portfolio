@@ -1,0 +1,25 @@
+/* StaggeredText: layout + hidden start state (prevents a flash before GSAP runs) */
+.st-row {
+  display: block;
+}
+
+.st-word {
+  display: inline-block;
+  white-space: nowrap; /* keeps a word from breaking mid-letter */
+}
+
+.st-seg {
+  display: inline-block;
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+
+.st-block {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-seg {
+    opacity: 1;
+  }
+}

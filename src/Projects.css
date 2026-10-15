@@ -1,0 +1,321 @@
+.pj {
+  --pj-bg: transparent;
+  --pj-card: #241119;
+  --pj-text-rgb: 255 243 241;
+  --pj-accent-rgb: 255 90 79;
+
+  --pj-text: rgb(var(--pj-text-rgb));
+  --pj-accent: rgb(var(--pj-accent-rgb));
+
+  position: relative;
+  background: transparent;
+  color: var(--pj-text);
+  overflow: hidden;
+}
+
+.pj__track {
+  display: flex;
+  align-items: center;
+  gap: 4vw;
+  height: 100vh;
+  padding: 0 8vw;
+  width: max-content;
+  will-change: transform;
+}
+
+/* ---------- intro ---------- */
+.pj__intro {
+  flex: 0 0 auto;
+  width: min(60vw, 720px);
+}
+
+.pj__eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pj-accent);
+  margin: 0 0 1.4rem;
+}
+
+.pj__title {
+  margin: 0;
+  font-size: clamp(3.5rem, 9vw, 8.5rem);
+  line-height: 0.95;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+/* mask: words slide up from behind a line */
+.pj__word {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  vertical-align: top;
+}
+.pj__word > span {
+  display: inline-block;
+  will-change: transform;
+}
+.pj__italic {
+  font-family: "Mrs Saint Delafield", "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--pj-accent);
+  letter-spacing: 0;
+}
+
+.pj__sub {
+  margin: 2rem 0 0;
+  max-width: 28rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.6;
+}
+.pj__arrow {
+  display: inline-block;
+  color: var(--pj-accent);
+  animation: pj-nudge 1.4s ease-in-out infinite;
+}
+@keyframes pj-nudge {
+  50% { transform: translateX(8px); }
+}
+
+/* ---------- card ---------- */
+.pj__card {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  flex: 0 0 auto;
+  width: min(34vw, 520px);
+  height: 72vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--pj-card);
+  border: 1px solid rgb(var(--pj-text-rgb) / 0.08);
+  transition: border-color 0.4s;
+  will-change: transform;
+}
+.pj__card:hover {
+  border-color: rgb(var(--pj-accent-rgb) / 0.45);
+}
+
+/* mouse-follow spotlight */
+.pj__spot {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(
+    380px circle at var(--mx) var(--my),
+    rgb(var(--pj-accent-rgb) / 0.22),
+    transparent 65%
+  );
+}
+.pj__card:hover .pj__spot {
+  opacity: 1;
+}
+
+/* image area (parallax moves .pj__media-inner) */
+.pj__media {
+  position: relative;
+  flex: 1 1 58%;
+  overflow: hidden;
+}
+.pj__media-inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-size: cover;
+  background-position: center;
+  background-image: linear-gradient(
+    135deg,
+    rgb(var(--pj-accent-rgb) / 0.55),
+    var(--pj-bg) 78%
+  );
+  will-change: transform;
+}
+.pj__media-inner svg {
+  width: 100px;
+  height: 240px;
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+.pj__ghost {
+  font-size: clamp(6rem, 12vw, 11rem);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  color: rgb(var(--pj-text-rgb) / 0.1);
+  user-select: none;
+}
+
+/* text area */
+.pj__body {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  padding: 1.5rem 1.7rem 1.7rem;
+  background: linear-gradient(to top, var(--pj-card) 80%, transparent);
+}
+.pj__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+.pj__num {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--pj-accent);
+}
+.pj__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+.pj__tags span {
+  font-size: 0.7rem;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--pj-text-rgb) / 0.14);
+  opacity: 0.75;
+}
+
+.pj__name {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.pj__desc {
+  margin: 0 0 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  opacity: 0.6;
+}
+
+.pj__links {
+  display: flex;
+  gap: 1.4rem;
+}
+.pj__links a {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding-bottom: 3px;
+}
+.pj__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--pj-accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.pj__links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.pj__links i {
+  display: inline-block;
+  font-style: normal;
+  transition: transform 0.3s;
+}
+.pj__links a:hover i {
+  transform: translate(3px, -3px);
+  color: var(--pj-accent);
+}
+
+.pj__end {
+  flex: 0 0 4vw;
+}
+
+/* progress bar */
+.pj__progress {
+  position: absolute;
+  left: 8vw;
+  right: 8vw;
+  bottom: 5vh;
+  height: 2px;
+  background: rgb(var(--pj-text-rgb) / 0.1);
+}
+.pj__progress span {
+  display: block;
+  height: 100%;
+  background: var(--pj-accent);
+  box-shadow: 0 0 12px var(--pj-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ---------- mobile: vertical stack ---------- */
+@media (max-width: 899px) {
+  .pj__track {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    height: auto;
+    gap: 1.6rem;
+    padding: 18vh 6vw 14vh;
+  }
+  .pj__intro {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .pj__card {
+    width: 100%;
+    height: 68vh;
+  }
+  .pj__end,
+  .pj__progress {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pj__arrow {
+    animation: none;
+  }
+}
+/* SVG illustration inside project cards */
+.pj__media-inner--svg {
+  background-image:
+    radial-gradient(
+      circle at 50% 45%,
+      rgb(255 90 79 / 0.14),
+      transparent 65%
+    ),
+    linear-gradient(135deg, #241119, #0b0507);
+}
+
+.pj__illustration {
+  display: block;
+  width: clamp(160px, 22vw, 280px);
+  height: clamp(160px, 22vw, 280px);
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 30px rgb(255 90 79 / 0.12));
+  z-index: 1;
+}
+
+@media (max-width: 899px) {
+  .pj__illustration {
+    width: 220px;
+    height: 220px;
+    max-width: 75%;
+    max-height: 75%;
+  }
+}

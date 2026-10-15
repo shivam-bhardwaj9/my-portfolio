@@ -1,0 +1,103 @@
+/* Serif font for the italic word. Safe to remove if SectionHeading.css already loads it. */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+
+.pf-footer {
+  position: relative;
+  z-index: 1; /* above the fixed animated background */
+  padding: clamp(56px, 9vw, 120px) clamp(16px, 4vw, 48px) 28px;
+  
+  text-align: center;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Big words ---------- */
+.pf-footer__brand {
+  margin: 0 0 clamp(48px, 8vw, 96px);
+  font-size: clamp(3.2rem, 15vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--pf-fg);
+}
+
+.pf-footer__brand span {
+  font-weight: 800;
+}
+
+.pf-footer__brand em {
+  font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--pf-accent);
+}
+
+/* ---------- Bottom bar ---------- */
+.pf-footer__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.9rem;
+  color: var(--pf-muted);
+}
+
+.pf-footer__bar p {
+  margin: 0;
+}
+
+.pf-footer__love {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* the heart beats softly */
+.pf-footer__heart {
+  color: var(--pf-accent);
+  animation: pf-heartbeat 1.6s ease-in-out infinite;
+}
+
+@keyframes pf-heartbeat {
+  0%, 100% { scale: 1; }
+  20%      { scale: 1.25; }
+  40%      { scale: 1; }
+  60%      { scale: 1.15; }
+}
+
+/* ---------- Social icons ---------- */
+.pf-footer__social {
+  display: flex;
+  gap: 12px;
+}
+
+.pf-footer__social a {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--pf-fg);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    translate 0.2s ease;
+}
+
+.pf-footer__social a:hover,
+.pf-footer__social a:focus-visible {
+  background: var(--pf-accent);
+  border-color: var(--pf-accent);
+  color: var(--pf-bg);
+  translate: 0 -3px;
+}
+
+/* ---------- Phones: stacked and centred ---------- */
+@media (max-width: 640px) {
+  .pf-footer__bar {
+    flex-direction: column;
+    text-align: center;
+  }
+}
