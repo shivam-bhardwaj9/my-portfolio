@@ -50,3 +50,13 @@
   line-height: 1.6;
   color: var(--pf-muted);
 }
+/* Preserve Instrument Serif italic for animated contact heading */
+
+/* Keep "Let's build" in the original sans-serif font */
+.pf .pf-head h2 .contact-signal-italic,
+.pf .pf-head h2 .contact-signal-italic span {
+  font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}

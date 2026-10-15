@@ -1,8 +1,3 @@
-/* =========================================
-   ABOUT SECTION
-   Uses the same variables as Portfolio.css
-========================================= */
-
 .ab-grid {
   display: grid;
   grid-template-columns: minmax(0, 380px) minmax(0, 1fr);

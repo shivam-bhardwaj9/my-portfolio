@@ -12,17 +12,18 @@ import SectionHeading from "./SectionHeading.jsx";
 import Footer from "./Footer.jsx";
 import Navbar from "./Navbar.jsx";
 import About from "./About.jsx";
+// Adjust this path to wherever you added the React Bits Pro component
+import SignalType from "./SignalType.jsx";
 // Images are imported (not written as "/src/assets/...") so they also work
 // after "npm run build" and on Vercel.
 import mePhoto from "./assets/me.png";
 import navLogo from "./assets/Mandala_Royal_Resort_Logo_Minimalist__1_-removebg-preview.png";
-
 gsap.registerPlugin(ScrollTrigger);
 const navLinks = [
-  { label: "Home", href: "#home" },{ label: "About", href: "#about" },
+  { label: "Home", href: "#home" }, { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
-  
+
   { label: "Contact", href: "#contact" },
 ];
 /* ------------------------------------------------------------------ */
@@ -215,16 +216,16 @@ export default function Portfolio() {
         </div>
 
         {/* Navbar: logo left, links right */}
-        
-          <Navbar
-        name="Shivam."
-        links={navLinks}
-        cta={{
-          label: "Github",
-          href: "https://github.com/shivam-bhardwaj9",
-        }}
-      />
-        
+
+        <Navbar
+          name="Shivam."
+          links={navLinks}
+          cta={{
+            label: "Github",
+            href: "https://github.com/shivam-bhardwaj9",
+          }}
+        />
+
 
         {/* Hero: text left, photo in the middle, text right */}
         <section id="home" className="pf-hero">
@@ -259,9 +260,10 @@ export default function Portfolio() {
             </div>
           </div>
         </section>
-        <section id="about" className="pf-section">
-          <About/>
-        </section>
+
+        {/* About renders its own <section id="about"> */}
+        <About />
+
         <section className="pf-projects-wrapper">
           <Projects />
         </section>
@@ -273,9 +275,35 @@ export default function Portfolio() {
           <SectionHeading
             label="Get in touch"
             title={
-              <>
-                Let&apos;s build <em>something.</em>
-              </>
+            <>
+              <SignalType
+        text="Let's build "
+        as="span"
+        color="#fff3f1"
+        glowColor="#ff5a4f"
+        unlit="outline"
+        flickers={3}
+        stagger={0.05}
+        trigger="view"
+        instability={0}
+        loop={false}
+        interference={1}
+      />
+      <SignalType
+        text="something."
+        as="span"
+        className="contact-signal-italic"
+        color="#fff3f1"
+        glowColor="#ff5a4f"
+        unlit="outline"
+        flickers={3}
+        stagger={0.05}
+        trigger="view"
+        instability={0}
+        loop={false}
+        interference={1}
+      />
+      </>
             }
             text="Open to full stack roles, internships and freelance projects. Say hello ↓"
           />
