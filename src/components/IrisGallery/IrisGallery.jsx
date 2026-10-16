@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -158,6 +158,8 @@ function Ring({
   const focusScale = (pupilR * 2.1) / cardH;
 
   /* ---------- Animation loop ---------- */
+  // The frame loop updates ref-backed simulation state without React renders.
+  // eslint-disable-next-line react-hooks/immutability -- Intentional imperative animation state.
   useFrame((_, delta) => {
     const dt = Math.min(delta, 0.05);
     const st = sim.current;
@@ -188,6 +190,7 @@ function Ring({
 
     // 3) Turn the ring (auto-spin + drag/wheel inertia)
     if (!m.dragging) {
+      // eslint-disable-next-line react-hooks/immutability -- This ref stores per-frame motion state.
       m.speedMul = damp(m.speedMul, focused || hovering ? 0 : 1, 4, dt);
       m.offset += ((speed * Math.PI) / 180) * m.speedMul * dt + m.vel * dt;
       m.vel = damp(m.vel, 0, 2.5, dt);

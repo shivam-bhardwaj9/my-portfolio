@@ -3,6 +3,8 @@ import { useEffect, useRef } from "react";
 import "./Character.css";
 
 const FRAME_COUNT = 240;
+const PRELOAD_RADIUS = 8;
+const CACHE_RADIUS = 24;
 
 const FRAME_PATH = (index) =>
   `/frames/frame_${String(index + 1).padStart(3, "0")}_no_bg.png`;
@@ -19,10 +21,11 @@ export default function Character() {
 
     if (!canvas || !characterSection || !aboutSection || !ctx) return;
 
-    const images = [];
+    const images = new Array(FRAME_COUNT);
     let currentFrame = 0;
     let rafId = null;
     let disposed = false;
+    let framesStarted = false;
 
     const render = () => {
       rafId = null;
@@ -80,6 +83,47 @@ export default function Character() {
       rafId = requestAnimationFrame(render);
     };
 
+    const loadFrame = (index) => {
+      if (index < 0 || index >= FRAME_COUNT || images[index]) return;
+
+      const img = new Image();
+      img.decoding = "async";
+      images[index] = img;
+      img.onload = () => {
+        if (images[index] === img) requestRender();
+      };
+      img.onerror = () => {
+        if (images[index] === img) {
+          console.error("Failed to load:", FRAME_PATH(index));
+        }
+      };
+      img.src = FRAME_PATH(index);
+    };
+
+    const loadNearbyFrames = (frame) => {
+      for (
+        let index = Math.max(0, frame - PRELOAD_RADIUS);
+        index <= Math.min(FRAME_COUNT - 1, frame + PRELOAD_RADIUS);
+        index++
+      ) {
+        loadFrame(index);
+      }
+
+      for (let index = 0; index < FRAME_COUNT; index++) {
+        if (Math.abs(index - frame) > CACHE_RADIUS && images[index]?.complete) {
+          images[index].onload = null;
+          images[index].onerror = null;
+          images[index] = null;
+        }
+      }
+    };
+
+    const startLoadingFrames = () => {
+      if (framesStarted) return;
+      framesStarted = true;
+      loadNearbyFrames(currentFrame);
+    };
+
     const resize = () => {
       const rect = characterSection.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -104,27 +148,26 @@ export default function Character() {
 
       if (nextFrame !== currentFrame) {
         currentFrame = nextFrame;
+        startLoadingFrames();
+        loadNearbyFrames(currentFrame);
         requestRender();
       }
     };
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      images.push(img);
-
-      img.onload = requestRender;
-
-      img.onerror = () => {
-        console.error("Failed to load:", FRAME_PATH(i));
-      };
-
-      img.src = FRAME_PATH(i);
-    }
 
     resize();
 
     const observer = new ResizeObserver(resize);
     observer.observe(characterSection);
+
+    const frameObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        frameObserver.disconnect();
+        startLoadingFrames();
+      },
+      { rootMargin: "300px 0px" }
+    );
+    frameObserver.observe(aboutSection);
 
     aboutSection.addEventListener("pointermove", handlePointerMove, {
       passive: true,
@@ -136,11 +179,14 @@ export default function Character() {
       if (rafId !== null) cancelAnimationFrame(rafId);
 
       observer.disconnect();
+      frameObserver.disconnect();
       aboutSection.removeEventListener("pointermove", handlePointerMove);
 
       images.forEach((img) => {
-        img.onload = null;
-        img.onerror = null;
+        if (img) {
+          img.onload = null;
+          img.onerror = null;
+        }
       });
     };
   }, []);

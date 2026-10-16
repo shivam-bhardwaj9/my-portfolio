@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import "./TextMorph.css";
 
@@ -19,6 +19,13 @@ const HIDDEN = {
   blur: { opacity: 0, scaleX: 1.08, scaleY: 1.08, filter: "blur(12px)" },
 };
 const SHOWN = { opacity: 1, scaleX: 1, scaleY: 1, filter: "blur(0px)" };
+const DEFAULT_WORDS = [
+  "Full Stack Developer",
+  "Frontend Developer",
+  "Backend Developer",
+  "UI/UX Designer",
+  "Software Engineer",
+];
 
 // 0..1 order in which a letter starts (decides where the ripple begins)
 function rankOf(index, count, from) {
@@ -32,7 +39,7 @@ function rankOf(index, count, from) {
 }
 
 export default function TextMorph({
-  words = ["Full Stack Developer", "Frontend Developer", "Backend Developer", "UI/UX Designer", "Software Engineer"],
+  words = DEFAULT_WORDS,
   morph = "liquid", // "liquid" | "blur"
   interval = 2.6, // seconds the word stays before the next morph
   duration = 1.1, // seconds one morph takes
@@ -54,10 +61,12 @@ export default function TextMorph({
 
   // Always holds the latest props, so the effect below does not restart
   const live = useRef({});
-  live.current = {
-    words, morph, interval, duration, stagger, staggerFrom,
-    morphColor, loop, pauseOnHover, onChange,
-  };
+  useEffect(() => {
+    live.current = {
+      words, morph, interval, duration, stagger, staggerFrom,
+      morphColor, loop, pauseOnHover, onChange,
+    };
+  }, [words, morph, interval, duration, stagger, staggerFrom, morphColor, loop, pauseOnHover, onChange]);
 
   const wordsKey = words.join("|");
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -172,8 +172,13 @@ function Price({ inr, usd }) {
 
 export default function Freelance() {
   const ref = useRef(null);
+  const [portalTarget, setPortalTarget] = useState(null);
   const [openCard, setOpenCard] = useState(null); // index of the open rate card
   const [hoverCard, setHoverCard] = useState(null); // card under the mouse (gets the flame)
+
+  useEffect(() => {
+    setPortalTarget(ref.current?.closest(".pf") || document.body);
+  }, []);
 
   // Popup: Esc closes it, and the page behind stops scrolling
   useEffect(() => {
@@ -345,7 +350,7 @@ export default function Freelance() {
       </div>
 
       {/* Full-screen rate card popup (rendered inside .pf so it gets the theme colours) */}
-      {openCard !== null &&
+      {openCard !== null && portalTarget &&
         (() => {
           const card = PRICING[openCard];
           const isCustom = !card.usd;
@@ -422,7 +427,7 @@ export default function Freelance() {
                 </div>
               </div>
             </div>,
-            ref.current?.closest(".pf") || document.body
+            portalTarget
           );
         })()}
     </section>

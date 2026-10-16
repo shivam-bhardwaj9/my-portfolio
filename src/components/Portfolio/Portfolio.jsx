@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "./Portfolio.css";
-import IrisGallery from "../IrisGallery/IrisGallery.jsx";
 import Signature from "../SignatureLoader/SignatureLoader.jsx";
 import Projects from "../Projects/Projects.jsx";
 import Skills from "../Skills/Skills.jsx";
@@ -14,27 +13,21 @@ import Navbar from "../Navbar/Navbar.jsx";
 import About from "../About/About.jsx";
 import ScrollPortal from "../ScrollPortal/ScrollPortal.jsx";
 import Freelance from "../Freelance/Freelance.jsx";
-// Adjust this path to wherever you added the React Bits Pro component
 import SignalType from "../SignalType/SignalType.jsx";
-// Images are imported (not written as "/src/assets/...") so they also work
-// after "npm run build" and on Vercel.
 import mePhoto from "../../assets/me.png";
-import navLogo from "../../assets/Mandala_Royal_Resort_Logo_Minimalist__1_-removebg-preview.png";
+
 gsap.registerPlugin(ScrollTrigger);
+
 const navLinks = [
-  { label: "Home", href: "#home" }, { label: "About", href: "#about" },
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
-
   { label: "Contact", href: "#contact" },
 ];
-/* ------------------------------------------------------------------ */
-/* Put your own data here                                              */
-/* ------------------------------------------------------------------ */
+
 const NAME = "Shivam";
 const ROLE = "Full Stack Developer";
-
-// Words the hero role text morphs between (the first one shows first)
 const ROLE_WORDS = [
   "Full Stack Developer",
   "Frontend Developer",
@@ -46,12 +39,10 @@ const ROLE_WORDS = [
 const INTRO =
   "I build full stack web apps with Node.js and React, from the database to the interface.";
 
-const MY_PHOTO = mePhoto;
-
-const LINKS = [
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+const BACKGROUND_ANIMATIONS = [
+  { selector: ".pf-bg__blob--a", x: "30vw", y: "40vh" },
+  { selector: ".pf-bg__blob--b", x: "-30vw", y: "-35vh" },
+  { selector: ".pf-bg__blob--c", x: "25vw", y: "20vh" },
 ];
 
 export default function Portfolio() {
@@ -160,9 +151,9 @@ export default function Portfolio() {
       });
 
       /* C) Background lights travel across the page while scrolling */
-      gsap.to(".pf-bg__blob--a", { x: "30vw", y: "40vh", ease: "none", scrollTrigger: pageScroll });
-      gsap.to(".pf-bg__blob--b", { x: "-30vw", y: "-35vh", ease: "none", scrollTrigger: pageScroll });
-      gsap.to(".pf-bg__blob--c", { x: "25vw", y: "20vh", ease: "none", scrollTrigger: pageScroll });
+      BACKGROUND_ANIMATIONS.forEach(({ selector, x, y }) => {
+        gsap.to(selector, { x, y, ease: "none", scrollTrigger: pageScroll });
+      });
 
       /* D) Sections fade up when they come into view */
       gsap.utils.toArray(".pf-section:not(.pf-projects-wrapper)").forEach((section) => {
@@ -248,7 +239,7 @@ export default function Portfolio() {
 
           <img
             className="pf-hero__photo"
-            src={MY_PHOTO}
+            src={mePhoto}
             alt={`${NAME}, ${ROLE}`}
           />
 

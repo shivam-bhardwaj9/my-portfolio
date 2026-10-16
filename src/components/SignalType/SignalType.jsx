@@ -383,7 +383,6 @@ const SignalType = forwardRef(function SignalType(
       if (interval) clearInterval(interval);
       if (observer) observer.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, count, trigger, paused, seed, order]);
 
   return (

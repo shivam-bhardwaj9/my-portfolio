@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./ServiceCarousel.css";
 
 /**
@@ -42,7 +42,10 @@ export default function ServiceCarousel({
   const cardRefs = useRef([]);
   const api = useRef({});
   const onChangeRef = useRef(onCardChange);
-  onChangeRef.current = onCardChange;
+
+  useEffect(() => {
+    onChangeRef.current = onCardChange;
+  }, [onCardChange]);
 
   const [active, setActive] = useState(clamp(initialIndex, 0, Math.max(0, n - 1)));
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 /* A small WebGL flame. Fills its parent (position it with CSS).
    Props:

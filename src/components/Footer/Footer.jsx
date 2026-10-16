@@ -1,4 +1,3 @@
-import React from "react";
 import "./Footer.css";
 
 const GITHUB_URL = "https://github.com/shivam-bhardwaj9";

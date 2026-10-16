@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 
+const EMPTY_LINKS = [];
+
 export default function Navbar({ name = "Shivam.", logo, logoAlt = "", links, cta }) {
-  const items = links || [];
+  const items = links || EMPTY_LINKS;
   const [active, setActive] = useState("");
   const [hidden, setHidden] = useState(false);
   const [compact, setCompact] = useState(false);
@@ -21,11 +23,12 @@ export default function Navbar({ name = "Shivam.", logo, logoAlt = "", links, ct
      scrolling up, and work out which section is currently in view. */
   useEffect(() => {
     let lastY = window.scrollY;
-    let ticking = false;
+    let frame = 0;
     const update = () => {
-      ticking = false;
+      frame = 0;
       const y = window.scrollY;
-      setCompact(y > 40);
+      const nextCompact = y > 40;
+      setCompact((current) => (current === nextCompact ? current : nextCompact));
       if (!openRef.current) {
         if (y > lastY + 6 && y > 240) setHidden(true);
         else if (y < lastY - 6 || y < 120) setHidden(false);
@@ -34,22 +37,21 @@ export default function Navbar({ name = "Shivam.", logo, logoAlt = "", links, ct
       const probe = y + window.innerHeight * 0.35;
       let current = "";
       items.forEach((l) => {
-        const el = document.querySelector(l.href);
+        const el = l.href.startsWith("#")
+          ? document.getElementById(l.href.slice(1))
+          : null;
         if (el && el.getBoundingClientRect().top + y <= probe) current = l.href;
       });
-      setActive(current);
+      setActive((previous) => (previous === current ? previous : current));
     };
     const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
+      if (!frame) frame = requestAnimationFrame(update);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    const first = requestAnimationFrame(update);
+    frame = requestAnimationFrame(update);
     return () => {
-      cancelAnimationFrame(first);
+      if (frame) cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
