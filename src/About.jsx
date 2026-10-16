@@ -4,15 +4,38 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./About.css";
 import SectionHeading from "./SectionHeading.jsx";
 import Character from "./Character.jsx";
+import HoverPreview from "./HoverPreview.jsx";
+import mePhoto from "./assets/me.png";
+// Save your book photo as src/assets/hello_5.png (or change this path)
+import readingPhoto from "./assets/hero.png";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ------------------------------------------------------------------ */
 /* Edit your own text here                                             */
 /* ------------------------------------------------------------------ */
+// {0}, {1} ... are words that show a photo on hover (see `targets`).
 const BIO = [
-  "I'm Shivam, a full stack developer who enjoys taking an idea all the way from an empty database to a polished interface people actually like using.",
-  "I work mostly with Node.js and React, and I care about clean APIs, fast pages and small details like smooth scrolling and thoughtful animation.",
-  "When I'm not building, I'm learning something new, reading other people's code, or tweaking this portfolio a little more.",
+  {
+    content:
+      "I'm {0}, a full stack developer who enjoys taking an idea all the way from an empty database to a polished interface people actually like using.",
+    targets: [{ text: "Shivam", imageUrl: mePhoto, altText: "Shivam" }],
+  },
+  {
+    content:
+      "I work mostly with Node.js and React, and I care about clean APIs, fast pages and small details like smooth scrolling and thoughtful animation.",
+    targets: [],
+  },
+  {
+    content:
+      "When I'm not building, I'm learning something new, {0}, or tweaking this portfolio a little more.",
+    targets: [
+      {
+        text: "reading other people's code",
+        imageUrl: readingPhoto,
+        altText: "Shivam reading a book",
+      },
+    ],
+  },
 ];
 
 // `value` counts up from 0. `suffix` is shown after the number.
@@ -126,7 +149,18 @@ export default function About() {
         <div className="ab-main">
           <div className="ab-bio">
             {BIO.map((p, i) => (
-              <p key={i}>{p}</p>
+              <p key={i}>
+                <HoverPreview
+                  content={p.content}
+                  targets={p.targets}
+                  imagePosition="above"
+                  imageWidth={190}
+                  imageHeight={230}
+                  maxRotation={10}
+                  maxOffset={14}
+                  targetClassName="ab-hover"
+                />
+              </p>
             ))}
           </div>
 

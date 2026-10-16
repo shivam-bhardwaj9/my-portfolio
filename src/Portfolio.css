@@ -689,3 +689,15 @@ html.lenis body {
     transition: none !important;
   }
 }
+/* Contact section centered */
+#contact {
+  text-align: center;
+}
+
+#contact p {
+  margin-inline: auto; /* centers the short text line */
+}
+
+#contact .pf-hero__actions {
+  justify-content: center; /* centers the buttons */
+}

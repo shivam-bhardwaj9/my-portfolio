@@ -12,6 +12,8 @@ import SectionHeading from "./SectionHeading.jsx";
 import Footer from "./Footer.jsx";
 import Navbar from "./Navbar.jsx";
 import About from "./About.jsx";
+import ScrollPortal from "./ScrollPortal.jsx";
+import Freelance from "./Freelance.jsx";
 // Adjust this path to wherever you added the React Bits Pro component
 import SignalType from "./SignalType.jsx";
 // Images are imported (not written as "/src/assets/...") so they also work
@@ -79,7 +81,9 @@ export default function Portfolio() {
       if (!link) return;
       const hash = link.getAttribute("href");
       if (hash.length < 2) return;
-      const target = document.querySelector(hash);
+      const target =
+        (hash === "#skills" && document.querySelector(".rv")) ||
+        document.querySelector(hash);
       if (!target) return;
       e.preventDefault();
       lenis.scrollTo(target, { offset: hash === "#home" ? 0 : -64 });
@@ -268,55 +272,49 @@ export default function Portfolio() {
           <Projects />
         </section>
 
-        {/* Animated skills section (see Skills.jsx and Skills.css) */}
-        <Skills />
+        {/* Skills stays pinned while Freelance slides over it */}
+        <ScrollPortal under={<Skills />} over={<Freelance />} />
 
         <section id="contact" className="pf-section">
           <SectionHeading
             label="Get in touch"
             title={
-            <>
-              <SignalType
-        text="Let's build "
-        as="span"
-        color="#fff3f1"
-        glowColor="#ff5a4f"
-        unlit="outline"
-        flickers={3}
-        stagger={0.05}
-        trigger="view"
-        instability={0}
-        loop={false}
-        interference={1}
-      />
-      <SignalType
-        text="something."
-        as="span"
-        className="contact-signal-italic"
-        color="#fff3f1"
-        glowColor="#ff5a4f"
-        unlit="outline"
-        flickers={3}
-        stagger={0.05}
-        trigger="view"
-        instability={0}
-        loop={false}
-        interference={1}
-      />
-      </>
+              <>
+                <SignalType
+                  text="Let's build "
+                  as="span"
+                  color="#fff3f1"
+                  glowColor="#ff5a4f"
+                  unlit="outline"
+                  flickers={3}
+                  stagger={0.05}
+                  trigger="view"
+                  instability={0}
+                  loop={false}
+                  interference={1}
+                />
+                <SignalType
+                  text="something."
+                  as="span"
+                  className="contact-signal-italic"
+                  color="#fff3f1"
+                  glowColor="#ff5a4f"
+                  unlit="outline"
+                  flickers={3}
+                  stagger={0.05}
+                  trigger="view"
+                  instability={0}
+                  loop={false}
+                  interference={1}
+                />
+              </>
             }
-            text="Open to full stack roles, internships and freelance projects. Say hello ↓"
+            text="Open to full stack roles, internships and freelance."
           />
 
-          {/* Add an email button here: <a className="pf-btn" href="mailto:you@example.com">Email</a> */}
           <div className="pf-hero__actions">
-            <a
-              className="pf-btn pf-btn--solid"
-              href="https://github.com/shivam-bhardwaj9"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
+            <a className="pf-btn pf-btn--solid" href="mailto:you@example.com">
+              Email me
             </a>
             <a
               className="pf-btn"

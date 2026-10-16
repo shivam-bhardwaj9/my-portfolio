@@ -1,0 +1,360 @@
+/* =========================================
+   SERVICE CAROUSEL
+   Uses the same variables as Portfolio.css
+========================================= */
+
+.sc {
+  --sc-w: min(78vw, 340px);
+  --sc-h: 400px;
+
+  position: relative;
+  isolation: isolate;
+  margin-top: 40px;
+}
+
+/* Soft colour behind the cards, taken from the card in the middle.
+   Plain gradients (no blur filter), so it stays cheap to repaint. */
+.sc__glow {
+  position: absolute;
+  z-index: -1;
+  inset: -10% -4% 8%;
+  opacity: var(--sc-int, 0.7);
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      42% 58% at 50% 50%,
+      color-mix(in srgb, var(--sc-c, #ff5a4f) 62%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      28% 42% at 14% 72%,
+      color-mix(in srgb, var(--sc-c, #ff5a4f) 30%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      28% 42% at 86% 24%,
+      color-mix(in srgb, var(--sc-c, #ff5a4f) 30%, transparent),
+      transparent 72%
+    );
+}
+
+.sc__stage {
+  position: relative;
+  height: calc(var(--sc-h) + 56px);
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+
+  touch-action: pan-y; /* the page can still scroll up and down */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  outline: none;
+}
+
+.sc__stage.is-dragging {
+  cursor: grabbing;
+}
+
+.sc__stage:focus-visible {
+  outline: 2px solid var(--pf-accent);
+  outline-offset: 6px;
+  border-radius: 24px;
+}
+
+/* ---------- Card ---------- */
+
+.sc-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--sc-w);
+  height: var(--sc-h);
+
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 26px;
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--c) 14%, #1a0b10) 0%,
+      #14080c 62%
+    );
+
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.sc-card[data-active="true"] {
+  border-color: color-mix(in srgb, var(--c) 60%, transparent);
+  box-shadow:
+    0 34px 80px -26px color-mix(in srgb, var(--c) 65%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--c) 25%, transparent);
+}
+
+/* light that follows the pointer */
+.sc-card__shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 0%),
+    color-mix(in srgb, var(--c) 30%, transparent),
+    transparent 62%
+  );
+}
+
+.sc-card[data-active="true"]:hover .sc-card__shine {
+  opacity: 1;
+}
+
+.sc-card__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 28px 26px 30px;
+}
+
+.sc-card[data-active="true"] .sc-card__body {
+  animation: sc-float 5s ease-in-out infinite;
+}
+
+@keyframes sc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.sc-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sc-card__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  color: var(--c);
+
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.4s ease;
+}
+
+.sc-card__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.sc-card[data-active="true"] .sc-card__icon {
+  transform: rotate(-8deg) scale(1.08);
+  background: color-mix(in srgb, var(--c) 24%, transparent);
+}
+
+.sc-card__n {
+  color: transparent;
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--c) 65%, transparent);
+}
+
+.sc-card h3 {
+  margin: 0;
+  color: var(--pf-fg);
+  font-size: 1.45rem;
+  line-height: 1.2;
+}
+
+.pf-section .sc-card p {
+  color: var(--pf-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.sc-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: auto 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* the chips pop in one after another when a card becomes the active one */
+.sc-card__tags li {
+  padding: 5px 12px;
+  border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  border-radius: 999px;
+  color: var(--pf-fg);
+  font-size: 0.78rem;
+
+  opacity: 0.35;
+  transform: translateY(8px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sc-card[data-active="true"] .sc-card__tags li {
+  opacity: 1;
+  transform: none;
+}
+
+.sc-card[data-active="true"] .sc-card__tags li:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.sc-card[data-active="true"] .sc-card__tags li:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+/* line along the bottom that draws itself on the active card */
+.sc-card__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--c), transparent);
+  transition: width 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sc-card[data-active="true"] .sc-card__bar {
+  width: 100%;
+}
+
+/* ---------- Controls ---------- */
+
+.sc__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.sc__btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--pf-fg);
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.sc__btn:hover:not(:disabled),
+.sc__btn:focus-visible {
+  border-color: var(--pf-accent);
+  background: rgba(255, 90, 79, 0.12);
+}
+
+.sc__btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.sc__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sc__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+
+  transition:
+    width 0.35s ease,
+    background 0.35s ease;
+}
+
+.sc__dot.is-active {
+  width: 28px;
+  background: var(--pf-accent);
+}
+
+.sc__count {
+  min-width: 64px;
+  color: var(--pf-muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+
+.sc__count i {
+  font-style: normal;
+  opacity: 0.5;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 560px) {
+  .sc {
+    --sc-w: min(76vw, 300px);
+    --sc-h: 380px;
+  }
+
+  .sc-card__body {
+    padding: 24px 22px 26px;
+  }
+
+  .sc-card__n {
+    font-size: 2.8rem;
+  }
+
+  .sc__count {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-card[data-active="true"] .sc-card__body {
+    animation: none;
+  }
+
+  .sc-card__tags li,
+  .sc-card__bar,
+  .sc-card__icon {
+    transition: none;
+  }
+}

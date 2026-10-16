@@ -1,0 +1,1157 @@
+/* =========================================
+   FREELANCE SECTION + CTA
+   Uses the same variables as Portfolio.css
+========================================= */
+
+.fl-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 0;
+  padding: 8px 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+
+  color: var(--pf-fg);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pf-section .fl-status {
+  color: var(--pf-fg);
+}
+
+.fl-status__dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #3ddc84;
+}
+
+.fl-status__dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid #3ddc84;
+  animation: fl-ping 2s ease-out infinite;
+}
+
+@keyframes fl-ping {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* ---------- Process ---------- */
+
+.fl-process {
+  margin-top: 72px;
+}
+
+.fl-process__title {
+  margin: 0 0 24px;
+  color: var(--pf-fg);
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+}
+
+.fl-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* thin line running through the step numbers */
+.fl-steps::before {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--pf-accent),
+    rgba(255, 255, 255, 0.12)
+  );
+}
+
+.fl-step {
+  position: relative;
+}
+
+.fl-step__i {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 14px;
+
+  border: 1px solid var(--pf-accent);
+  border-radius: 50%;
+  background: var(--pf-bg);
+
+  color: var(--pf-accent);
+  font-weight: 700;
+}
+
+.fl-step h4 {
+  margin: 0 0 6px;
+  color: var(--pf-fg);
+  font-size: 1.05rem;
+}
+
+.pf-section .fl-step p {
+  max-width: 26ch;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ---------- CTA ---------- */
+
+.fl-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 80px;
+  padding: clamp(36px, 6vw, 72px) clamp(20px, 5vw, 64px);
+
+  border: 1px solid rgba(255, 90, 79, 0.35);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 130%, rgba(200, 24, 40, 0.5), transparent 60%),
+    #13080c;
+
+  text-align: center;
+}
+
+.fl-cta__glow {
+  position: absolute;
+  z-index: -1;
+  top: -40%;
+  left: 50%;
+  width: 70%;
+  aspect-ratio: 1;
+  translate: -50% 0;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 90, 79, 0.22),
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.pf-section .fl-cta__eyebrow {
+  margin: 0 0 12px;
+  color: var(--pf-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.fl-cta__title {
+  margin: 0;
+  color: var(--pf-fg);
+  font-size: clamp(2rem, 5.5vw, 4.2rem);
+  line-height: 1.05;
+}
+
+.fl-cta__title em {
+  color: var(--pf-accent);
+  font-style: italic;
+}
+
+.pf-section .fl-cta__text {
+  max-width: 52ch;
+  margin: 18px auto 28px;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+}
+
+.fl-cta__actions {
+  justify-content: center;
+}
+
+.pf-section .fl-cta__meta {
+  margin-top: 22px;
+  font-size: 0.85rem;
+}
+
+.fl-cta__meta a {
+  color: var(--pf-fg);
+  text-underline-offset: 3px;
+}
+
+.fl-cta__meta a:hover {
+  color: var(--pf-accent);
+}
+
+/* ---------- Pricing cards behind the CTA ---------- */
+
+.fl-stack {
+  position: relative;
+  margin-top: 80px;
+  padding-top: 250px; /* room for the tops of the cards to peek out */
+}
+
+.fl-stack .fl-cta {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+}
+
+.fl-prices {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 3%;
+  right: 3%;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.fl-price {
+  position: relative;
+  height: 380px;
+  padding: 24px 24px 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #211017 0%, #13080c 100%);
+  box-shadow: 0 -12px 34px rgba(0, 0, 0, 0.45);
+
+  transform-origin: 50% 100%;
+  transition:
+    translate 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s ease;
+}
+
+/* fanned out; "translate" and "rotate" are separate from GSAP's transform */
+.fl-price:nth-child(1) {
+  rotate: -3.5deg;
+  translate: 0 10px;
+}
+
+.fl-price:nth-child(2) {
+  translate: 0 -12px;
+}
+
+.fl-price:nth-child(3) {
+  rotate: 3.5deg;
+  translate: 0 10px;
+}
+
+.fl-price.is-featured {
+  border-color: rgba(255, 90, 79, 0.6);
+}
+
+/* on hover the cards slide further out from behind */
+.fl-stack:hover .fl-price:nth-child(1) {
+  translate: 0 -10px;
+}
+
+.fl-stack:hover .fl-price:nth-child(2) {
+  translate: 0 -34px;
+}
+
+.fl-stack:hover .fl-price:nth-child(3) {
+  translate: 0 -10px;
+}
+
+.fl-price__badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  translate: -50% 0;
+  padding: 4px 12px;
+
+  border-radius: 999px;
+  background: var(--pf-accent);
+  color: var(--pf-bg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.fl-price__name {
+  margin: 0;
+  color: var(--pf-fg);
+  font-size: 1.1rem;
+}
+
+.fl-price__amount {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0 14px;
+}
+
+.pf-section .fl-price__note {
+  color: var(--pf-muted);
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.fl-price__amount strong {
+  color: var(--pf-accent);
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  line-height: 1.1;
+}
+
+.fl-price__list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fl-price__list li {
+  position: relative;
+  padding-left: 20px;
+  color: var(--pf-muted);
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.fl-price__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pf-accent);
+}
+
+/* ---------- Price currency roll (INR -> USD on hover) ---------- */
+
+.fl-price__value {
+  display: inline-grid; /* both prices share one cell, so width = the wider one */
+  overflow: hidden; /* hides the price while it is rolling out of view */
+  padding-block: 0.08em; /* stops digit tops and bottoms being clipped */
+  cursor: pointer;
+  vertical-align: bottom;
+}
+
+.fl-price__inr,
+.fl-price__usd {
+  grid-area: 1 / 1;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease,
+    filter 0.3s ease;
+}
+
+/* Dollar price waits below, hidden */
+.fl-price__usd {
+  transform: translateY(110%);
+  opacity: 0;
+  filter: blur(4px);
+}
+
+/* On hover: rupees roll up and out, dollars roll in */
+.fl-price__value.is-usd .fl-price__inr {
+  transform: translateY(-110%);
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.fl-price__value.is-usd .fl-price__usd {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 760px) {
+  .fl-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 28px;
+  }
+
+  .fl-steps::before {
+    display: none;
+  }
+
+  .fl-process {
+    margin-top: 56px;
+  }
+
+  .fl-cta {
+    margin-top: 56px;
+    border-radius: 22px;
+  }
+}
+
+@media (max-width: 760px) {
+  .fl-stack {
+    margin-top: 56px;
+    padding-top: 150px;
+  }
+
+  .fl-prices {
+    display: block;
+    left: 0;
+    right: 0;
+  }
+
+  .fl-price {
+    position: absolute;
+    left: calc((3 - var(--i)) * 4%);
+    right: calc((3 - var(--i)) * 4%);
+    top: calc(var(--i) * 48px);
+    height: 220px;
+    padding: 12px 18px 0;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+
+    rotate: 0deg !important;
+    translate: 0 0 !important;
+  }
+
+  .fl-price__amount {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .fl-price__amount strong {
+    font-size: 1.2rem;
+  }
+
+  .fl-price__list,
+  .fl-price__badge {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .fl-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fl-status__dot::after {
+    animation: none;
+  }
+
+  .fl-price__inr,
+  .fl-price__usd {
+    transition: none;
+  }
+}
+
+/* ---------- Rate card popup ---------- */
+
+.fl-price {
+  cursor: pointer;
+}
+
+.fl-price:focus-visible {
+  outline: 2px solid var(--pf-accent);
+  outline-offset: 3px;
+}
+
+.fl-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 4vw, 40px);
+
+  background: rgba(8, 3, 5, 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px); /* blurs the page behind */
+
+  animation: fl-modal-fade 0.3s ease both;
+}
+
+.fl-modal__panel {
+  position: relative;
+  width: min(960px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: clamp(28px, 5vw, 64px);
+
+  border: 1px solid rgba(255, 90, 79, 0.4);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 130%, rgba(200, 24, 40, 0.45), transparent 60%),
+    linear-gradient(180deg, #211017 0%, #13080c 100%);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+
+  animation: fl-modal-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fl-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+
+  color: var(--pf-fg);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.fl-modal__close:hover {
+  border-color: var(--pf-accent);
+  color: var(--pf-accent);
+}
+
+.fl-modal__badge {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 4px 12px;
+
+  border-radius: 999px;
+  background: var(--pf-accent);
+  color: var(--pf-bg);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.fl-modal__name {
+  margin: 0;
+  color: var(--pf-fg);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.05;
+}
+
+.fl-modal__note {
+  margin: 18px 0 0;
+  color: var(--pf-muted);
+  font-size: 0.9rem;
+}
+
+.fl-modal__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 14px;
+  margin: 4px 0 0;
+}
+
+.fl-modal__price strong {
+  color: var(--pf-accent);
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  line-height: 1.1;
+}
+
+.fl-modal__usd {
+  color: var(--pf-muted);
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  font-weight: 600;
+}
+
+.fl-modal__sub {
+  margin: 32px 0 14px;
+  color: var(--pf-fg);
+  font-size: 1.05rem;
+}
+
+.fl-modal__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fl-modal__list li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--pf-fg);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  line-height: 1.4;
+}
+
+.fl-modal__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pf-accent);
+}
+
+.fl-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+@keyframes fl-modal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fl-modal-pop {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fl-modal,
+  .fl-modal__panel {
+    animation: none;
+  }
+}
+
+/* =========================================
+   Rate cards: better UI + animation
+========================================= */
+
+@property --fl-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.fl-price {
+  isolation: isolate;
+  --mx: 50%;
+  --my: 0%;
+  transition:
+    translate 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    rotate 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    scale 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s ease,
+    box-shadow 0.4s ease;
+}
+
+/* soft light that follows the mouse */
+.fl-price::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    320px circle at var(--mx) var(--my),
+    rgba(255, 90, 79, 0.2),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.fl-price:hover::before {
+  opacity: 1;
+}
+
+/* hovered card lifts, straightens and glows */
+.fl-stack:hover .fl-price:hover {
+  translate: 0 -48px;
+  rotate: 0deg;
+  scale: 1.025;
+  border-color: rgba(255, 90, 79, 0.7);
+  box-shadow:
+    0 -16px 50px rgba(255, 90, 79, 0.22),
+    0 -12px 34px rgba(0, 0, 0, 0.45);
+  z-index: 3;
+}
+
+/* featured card: light running around the border */
+.fl-price.is-featured::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--fl-angle),
+    transparent 0 62%,
+    var(--pf-accent) 80%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: fl-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes fl-spin {
+  to {
+    --fl-angle: 360deg;
+  }
+}
+
+/* small arrow button: "open details" */
+.fl-price__open {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: var(--pf-fg);
+  font-size: 0.95rem;
+  line-height: 1;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fl-price:hover .fl-price__open {
+  background: var(--pf-accent);
+  border-color: var(--pf-accent);
+  color: var(--pf-bg);
+  transform: translate(2px, -2px) rotate(8deg);
+}
+
+/* check marks instead of dots, sliding in on hover */
+.fl-price__list li,
+.fl-modal__list li {
+  padding-left: 26px;
+}
+
+.fl-price__list li::before,
+.fl-modal__list li::before {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  top: 0.15em;
+
+  border-radius: 50%;
+  background: rgba(255, 90, 79, 0.16);
+  color: var(--pf-accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.fl-price__list li {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fl-price__list li:nth-child(2) {
+  transition-delay: 0.04s;
+}
+
+.fl-price__list li:nth-child(3) {
+  transition-delay: 0.08s;
+}
+
+.fl-price:hover .fl-price__list li {
+  transform: translateX(5px);
+}
+
+/* ---------- Popup: nicer entrance ---------- */
+
+.fl-modal__panel {
+  isolation: isolate;
+}
+
+/* slowly drifting glow in the corner */
+.fl-modal__panel::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -120px;
+  right: -90px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 90, 79, 0.35), transparent 65%);
+  animation: fl-float 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes fl-float {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-50px, 40px) scale(1.2);
+  }
+}
+
+@keyframes fl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fl-modal__badge,
+.fl-modal__name,
+.fl-modal__note,
+.fl-modal__price,
+.fl-modal__sub,
+.fl-modal__actions {
+  animation: fl-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fl-modal__name {
+  animation-delay: 0.08s;
+}
+
+.fl-modal__note {
+  animation-delay: 0.14s;
+}
+
+.fl-modal__price {
+  animation-delay: 0.18s;
+}
+
+.fl-modal__sub {
+  animation-delay: 0.26s;
+}
+
+.fl-modal__list li {
+  animation: fl-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.3s + var(--n, 0) * 0.08s);
+}
+
+.fl-modal__actions {
+  animation-delay: 0.65s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fl-price.is-featured::after,
+  .fl-modal__panel::before,
+  .fl-modal__badge,
+  .fl-modal__name,
+  .fl-modal__note,
+  .fl-modal__price,
+  .fl-modal__sub,
+  .fl-modal__list li,
+  .fl-modal__actions {
+    animation: none;
+  }
+
+  .fl-price,
+  .fl-price__list li,
+  .fl-price__open {
+    transition: none;
+  }
+}
+
+/* =========================================
+   Popup fixes: colours, overflow, layout
+========================================= */
+
+.fl-modal {
+  overflow: hidden;
+  color: var(--pf-fg, #fff3f1);
+  font-family: inherit;
+}
+
+.fl-modal__panel {
+  --fl-pad: clamp(12px, 4vw, 40px);
+
+  /* explicit height limit: % max-height does not work inside a grid cell */
+  max-height: calc(100vh - 2 * var(--fl-pad));
+  max-height: calc(100dvh - 2 * var(--fl-pad));
+  overflow-x: hidden; /* the corner glow no longer makes a sideways scrollbar */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  grid-template-areas:
+    "head body"
+    "actions body";
+  column-gap: clamp(24px, 4vw, 56px);
+  align-content: start;
+}
+
+.fl-modal__head {
+  grid-area: head;
+  min-width: 0;
+  padding-right: 48px; /* room for the close button */
+}
+
+.fl-modal__body {
+  grid-area: body;
+  min-width: 0;
+}
+
+.fl-modal__actions {
+  grid-area: actions;
+  align-self: end;
+  margin-top: 28px;
+}
+
+.fl-modal__body .fl-modal__sub {
+  margin-top: 4px;
+}
+
+.fl-modal__name,
+.fl-modal__list li {
+  overflow-wrap: anywhere;
+}
+
+/* included items as tiles that match the cards */
+.fl-modal__list {
+  gap: 10px;
+}
+
+.fl-modal__list li {
+  padding: 14px 16px 14px 50px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  transition:
+    translate 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.fl-modal__list li::before {
+  left: 16px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 22px;
+  height: 22px;
+  font-size: 0.75rem;
+}
+
+.fl-modal__list li:hover {
+  translate: 5px 0;
+  border-color: rgba(255, 90, 79, 0.55);
+  background: rgba(255, 90, 79, 0.08);
+}
+
+@media (max-width: 720px) {
+  .fl-modal__panel {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "head"
+      "body"
+      "actions";
+  }
+
+  .fl-modal__body {
+    margin-top: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fl-modal__list li {
+    transition: none;
+  }
+}
+
+/* =========================================
+   Shader flame (FlameShader.jsx)
+========================================= */
+
+.fl-flame {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* small cards: flame glows from the top edge, fades in on hover */
+.fl-flame--card {
+  animation: fl-modal-fade 0.5s ease both;
+  mix-blend-mode: screen;
+}
+
+/* popup: panel no longer scrolls itself, an inner box does,
+   so the flame stays fixed behind the content */
+.fl-modal__panel {
+  display: block;
+  padding: 0;
+  max-height: none;
+  overflow: hidden;
+  grid-template-columns: none;
+  grid-template-areas: none;
+}
+
+.fl-modal__panel::before {
+  display: none; /* the flame replaces the old drifting glow */
+}
+
+.fl-flame--modal {
+  opacity: 0.9;
+}
+
+/* dark veil so text stays readable above the flame */
+.fl-modal__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(19, 8, 12, 0.55) 0%,
+    rgba(19, 8, 12, 0.2) 60%,
+    rgba(19, 8, 12, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.fl-modal__scroll {
+  --fl-pad: clamp(12px, 4vw, 40px);
+  max-height: calc(100vh - 2 * var(--fl-pad));
+  max-height: calc(100dvh - 2 * var(--fl-pad));
+  padding: clamp(28px, 5vw, 64px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  grid-template-areas:
+    "head body"
+    "actions body";
+  column-gap: clamp(24px, 4vw, 56px);
+  align-content: start;
+}
+
+@media (max-width: 720px) {
+  .fl-modal__scroll {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "head"
+      "body"
+      "actions";
+  }
+}
+
+.fl-modal__close {
+  z-index: 2;
+}
+
+/* FlameShader is now a wrapper div that holds the canvas */
+.fl-flame {
+  overflow: hidden;
+}
+
+.fl-flame canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================
+   Popup buttons: stop browser / page button
+   styles from giving them a white background
+========================================= */
+
+.fl-modal .fl-modal__close {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--pf-fg, #fff3f1);
+  font-family: inherit;
+}
+
+.fl-modal .fl-modal__close:hover {
+  border-color: var(--pf-accent);
+  background: rgba(255, 90, 79, 0.16);
+  color: var(--pf-accent);
+}
+
+/* the "Close" button next to "Start a project" */
+.fl-modal button.pf-btn:not(.pf-btn--solid):not(:hover) {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  color: var(--pf-fg, #fff3f1);
+}
+
+.fl-modal button.pf-btn {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Popup buttons on hover: border only, never a filled background */
+
+.fl-modal .fl-modal__close:hover,
+.fl-modal .fl-modal__close:focus-visible,
+.fl-modal button.pf-btn:not(.pf-btn--solid):hover,
+.fl-modal button.pf-btn:not(.pf-btn--solid):focus-visible {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none;
+  border-color: var(--pf-accent);
+  color: var(--pf-accent);
+}
+
+/* Popup buttons on hover: keep the normal text colour, only the border changes */
+
+.fl-modal .fl-modal__close:hover,
+.fl-modal .fl-modal__close:focus-visible,
+.fl-modal button.pf-btn:not(.pf-btn--solid):hover,
+.fl-modal button.pf-btn:not(.pf-btn--solid):focus-visible {
+  color: var(--pf-fg, #fff3f1) !important;
+}

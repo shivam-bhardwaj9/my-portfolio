@@ -1,0 +1,103 @@
+/* =========================================
+   STACK REVEAL
+   The first section stays pinned (sticky) while the next one slides over it.
+   Needs no ancestor with overflow: hidden/auto (overflow: clip is fine).
+========================================= */
+
+.rv {
+  position: relative;
+  width: 100%;
+}
+
+.rv__under {
+  position: sticky;
+  top: 0; /* set from JS so the bottom of a tall section stays in view */
+  z-index: 1;
+}
+
+.rv__under-inner {
+  will-change: transform;
+}
+
+.rv__dim {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- The section that slides over ---------- */
+
+.rv__over {
+  position: relative;
+  z-index: 2;
+  will-change: transform;
+
+  border-radius: 36px 36px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+  /* solid for the first screen (it has to hide what is underneath),
+     then fades out so the page's red lights show again further down */
+  background:
+    radial-gradient(
+      70% 380px at 50% 0,
+      rgba(200, 24, 40, 0.28),
+      transparent 70%
+    ),
+    linear-gradient(180deg, #0b0507 0, #0b0507 100vh, rgba(11, 5, 7, 0) 100%);
+
+  box-shadow: 0 -40px 90px rgba(0, 0, 0, 0.65);
+}
+
+/* ---------- Big word that fills with colour ---------- */
+
+.rv__word {
+  --fill: 0%;
+
+  padding: clamp(24px, 4vw, 48px) 16px 0;
+  text-align: center;
+  user-select: none;
+
+  font-size: clamp(3rem, 15vw, 12rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.85;
+
+  /* outline for the empty part, red fill that grows with --fill */
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
+  background: linear-gradient(
+    90deg,
+    var(--pf-accent) var(--fill),
+    transparent var(--fill)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.rv__over > .pf-section {
+  padding-top: 40px;
+}
+
+@media (max-width: 760px) {
+  .rv__over {
+    border-radius: 26px 26px 0 0;
+  }
+
+  .rv__word {
+    -webkit-text-stroke-width: 0.8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv__under-inner,
+  .rv__over {
+    will-change: auto;
+  }
+
+  /* no scrubbing, so show the word filled */
+  .rv__word {
+    --fill: 100%;
+  }
+}
