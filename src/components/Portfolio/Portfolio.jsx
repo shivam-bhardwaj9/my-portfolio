@@ -3,23 +3,23 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "./Portfolio.css";
-import IrisGallery from "./IrisGallery.jsx";
-import Signature from "./SignatureLoader.jsx";
-import Projects from "./Projects.jsx";
-import Skills from "./Skills.jsx";
-import TextMorph from "./TextMorph.jsx";
-import SectionHeading from "./SectionHeading.jsx";
-import Footer from "./Footer.jsx";
-import Navbar from "./Navbar.jsx";
-import About from "./About.jsx";
-import ScrollPortal from "./ScrollPortal.jsx";
-import Freelance from "./Freelance.jsx";
+import IrisGallery from "../IrisGallery/IrisGallery.jsx";
+import Signature from "../SignatureLoader/SignatureLoader.jsx";
+import Projects from "../Projects/Projects.jsx";
+import Skills from "../Skills/Skills.jsx";
+import TextMorph from "../TextMorph/TextMorph.jsx";
+import SectionHeading from "../SectionHeading/SectionHeading.jsx";
+import Footer from "../Footer/Footer.jsx";
+import Navbar from "../Navbar/Navbar.jsx";
+import About from "../About/About.jsx";
+import ScrollPortal from "../ScrollPortal/ScrollPortal.jsx";
+import Freelance from "../Freelance/Freelance.jsx";
 // Adjust this path to wherever you added the React Bits Pro component
-import SignalType from "./SignalType.jsx";
+import SignalType from "../SignalType/SignalType.jsx";
 // Images are imported (not written as "/src/assets/...") so they also work
 // after "npm run build" and on Vercel.
-import mePhoto from "./assets/me.png";
-import navLogo from "./assets/Mandala_Royal_Resort_Logo_Minimalist__1_-removebg-preview.png";
+import mePhoto from "../../assets/me.png";
+import navLogo from "../../assets/Mandala_Royal_Resort_Logo_Minimalist__1_-removebg-preview.png";
 gsap.registerPlugin(ScrollTrigger);
 const navLinks = [
   { label: "Home", href: "#home" }, { label: "About", href: "#about" },

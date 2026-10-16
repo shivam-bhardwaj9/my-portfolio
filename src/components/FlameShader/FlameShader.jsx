@@ -40,10 +40,20 @@ float noise(vec2 p) {
     f.y
   );
 }
-float fbm(vec2 p) {
+float fbm4(vec2 p) {
   float v = 0.0;
   float a = 0.5;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 4; i++) {
+    v += a * noise(p);
+    p = p * 2.02 + vec2(1.7, 9.2);
+    a *= 0.5;
+  }
+  return v;
+}
+float fbm3(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  for (int i = 0; i < 3; i++) {
     v += a * noise(p);
     p = p * 2.02 + vec2(1.7, 9.2);
     a *= 0.5;
@@ -58,8 +68,8 @@ void main() {
   float x = (uv.x - 0.5) * asp;
 
   // two layers of noise drifting upwards, the second one faster
-  float n1 = fbm(vec2(x * 2.4, uv.y * 2.0 - uTime * 0.5));
-  float n2 = fbm(vec2(x * 5.0 + 3.0, uv.y * 3.2 - uTime * 0.95));
+  float n1 = fbm4(vec2(x * 2.4, uv.y * 2.0 - uTime * 0.5));
+  float n2 = fbm3(vec2(x * 5.0 + 3.0, uv.y * 3.2 - uTime * 0.95));
   float n = n1 * 0.7 + n2 * 0.3;
 
   // tall at the bottom edge, gone near the top; a bit stronger in the middle
@@ -101,6 +111,8 @@ export default function FlameShader({
   edge = "bottom",
   boost = 1,
   speed = 1,
+  scale = 0.6, // render resolution: 0.6 = 36% of the pixels (CSS stretches it, a soft flame does not need more)
+  fps = 30,
   className = "fl-flame",
 }) {
   const holderRef = useRef(null);
@@ -108,6 +120,10 @@ export default function FlameShader({
   useEffect(() => {
     const holder = holderRef.current;
     if (!holder) return;
+
+    // Heavy part (WebGL context + shader compile) runs AFTER the browser has
+    // painted the click result. Doing it inside the click made INP ~370 ms.
+    const init = () => {
 
     // A fresh canvas for every run of this effect. React StrictMode (dev) runs
     // effects twice, and a canvas whose WebGL context was released cannot be reused.
@@ -164,7 +180,7 @@ export default function FlameShader({
     gl.uniform1f(u("uFlip"), edge === "top" ? 1 : 0);
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.25); // keep it light
+    const dpr = scale; // NOT devicePixelRatio: a soft flame does not need sharp pixels
 
     const resize = () => {
       const w = Math.max(1, Math.floor(holder.clientWidth * dpr));
@@ -181,8 +197,20 @@ export default function FlameShader({
     resize();
 
     let raf = 0;
+    let lastDraw = 0;
+    let onScreen = true;
+    const minGap = 1000 / fps;
     const start = performance.now();
     const draw = (now) => {
+      raf = 0;
+      if (!reduce) {
+        if (document.hidden || !onScreen) return; // paused, wake() restarts it
+        if (now - lastDraw < minGap) {
+          raf = requestAnimationFrame(draw);
+          return;
+        }
+      }
+      lastDraw = now;
       const t = reduce ? 2 : ((now - start) / 1000) * speed;
       gl.uniform1f(uTime, t);
       gl.clearColor(0, 0, 0, 0);
@@ -190,10 +218,21 @@ export default function FlameShader({
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       if (!reduce) raf = requestAnimationFrame(draw);
     };
+    const wake = () => {
+      if (!raf && !reduce && !document.hidden && onScreen) raf = requestAnimationFrame(draw);
+    };
+    const io = new IntersectionObserver(([e]) => {
+      onScreen = e.isIntersecting;
+      wake();
+    });
+    io.observe(holder);
+    document.addEventListener("visibilitychange", wake);
     raf = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
+      document.removeEventListener("visibilitychange", wake);
       ro.disconnect();
       gl.deleteBuffer(buf);
       gl.deleteProgram(prog);
@@ -202,7 +241,21 @@ export default function FlameShader({
       gl.getExtension("WEBGL_lose_context")?.loseContext();
       canvas.remove();
     };
-  }, [color, hot, edge, boost, speed]);
+    };
+
+    let stop = null;
+    let timer = 0;
+    const raf0 = requestAnimationFrame(() => {
+      timer = setTimeout(() => {
+        stop = init();
+      }, 30);
+    });
+    return () => {
+      cancelAnimationFrame(raf0);
+      clearTimeout(timer);
+      if (stop) stop();
+    };
+  }, [color, hot, edge, boost, speed, scale, fps]);
 
   return <div ref={holderRef} className={className} aria-hidden="true" />;
 }

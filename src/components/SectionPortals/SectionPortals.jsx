@@ -1,5 +1,5 @@
 import React from "react";
-import ScrollPortal from "./ScrollPortal.jsx";
+import ScrollPortal from "../ScrollPortal/ScrollPortal.jsx";
 
 /* ------------------------------------------------------------------ */
 /* Edit the text and colours of the portal here               */

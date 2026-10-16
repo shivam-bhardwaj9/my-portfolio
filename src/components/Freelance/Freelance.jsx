@@ -3,9 +3,9 @@ import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Freelance.css";
-import SectionHeading from "./SectionHeading.jsx";
-import ServiceCarousel from "./ServiceCarousel.jsx";
-import FlameShader from "./FlameShader.jsx";
+import SectionHeading from "../SectionHeading/SectionHeading.jsx";
+import ServiceCarousel from "../ServiceCarousel/ServiceCarousel.jsx";
+import FlameShader from "../FlameShader/FlameShader.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 

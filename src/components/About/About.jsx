@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./About.css";
-import SectionHeading from "./SectionHeading.jsx";
-import Character from "./Character.jsx";
-import HoverPreview from "./HoverPreview.jsx";
-import mePhoto from "./assets/me.png";
+import SectionHeading from "../SectionHeading/SectionHeading.jsx";
+import Character from "../Character/Character.jsx";
+import HoverPreview from "../HoverPreview/HoverPreview.jsx";
+import mePhoto from "../../assets/me.png";
 // Save your book photo as src/assets/hello_5.png (or change this path)
-import readingPhoto from "./assets/hero.png";
+import readingPhoto from "../../assets/hero.png";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ------------------------------------------------------------------ */

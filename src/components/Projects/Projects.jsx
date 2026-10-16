@@ -2,8 +2,8 @@ import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Projects.css";
-import misIcon from "./assets/Chatgpt.svg";
-import livetrackIcon from "./assets/LiveTrack.svg"
+import misIcon from "../../assets/Chatgpt.svg";
+import livetrackIcon from "../../assets/LiveTrack.svg"
 gsap.registerPlugin(ScrollTrigger);
 
 /* ------------------------------------------------------------------

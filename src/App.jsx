@@ -1,5 +1,4 @@
-import React from 'react'
-import Portfolio from './Portfolio'
+import Portfolio from './components/Portfolio/Portfolio.jsx'
 const App = () => {
   return (
     <div><Portfolio /></div>
