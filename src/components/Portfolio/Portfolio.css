@@ -701,3 +701,28 @@ html.lenis body {
 #contact .pf-hero__actions {
   justify-content: center; /* centers the buttons */
 }
+/* =========================================
+   PERFORMANCE: PHONES
+========================================= */
+@media (max-width: 760px) {
+  /* Static background: no drifting blobs, no blend-mode grain */
+  .pf-bg__blob {
+    animation: none;
+    will-change: auto;
+  }
+
+  .pf-bg__grain {
+    display: none;
+  }
+
+  .pf-hero__glow {
+    animation: none;
+  }
+
+  /* Backdrop blur re-renders on every scroll frame, so use a solid bar */
+  .pf-nav {
+    background: rgba(14, 5, 8, 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

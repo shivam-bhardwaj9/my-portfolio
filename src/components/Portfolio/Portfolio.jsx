@@ -1,20 +1,15 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "./Portfolio.css";
 import Signature from "../SignatureLoader/SignatureLoader.jsx";
-import Projects from "../Projects/Projects.jsx";
-import Skills from "../Skills/Skills.jsx";
 import TextMorph from "../TextMorph/TextMorph.jsx";
-import SectionHeading from "../SectionHeading/SectionHeading.jsx";
-import Footer from "../Footer/Footer.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
-import About from "../About/About.jsx";
-import ScrollPortal from "../ScrollPortal/ScrollPortal.jsx";
-import Freelance from "../Freelance/Freelance.jsx";
-import SignalType from "../SignalType/SignalType.jsx";
 import mePhoto from "../../assets/me.png";
+
+// Everything below the hero is a separate chunk, loaded after the page has loaded
+const BelowFold = lazy(() => import("./BelowFold.jsx"));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,15 +42,24 @@ const BACKGROUND_ANIMATIONS = [
 
 export default function Portfolio() {
   const rootRef = useRef(null);
+  const [showRest, setShowRest] = useState(false);
+
+  /* Load the rest of the page only after the hero (and its photo) has loaded */
+  useEffect(() => {
+    if (document.readyState === "complete") {
+      const t = setTimeout(() => setShowRest(true), 200);
+      return () => clearTimeout(t);
+    }
+    const go = () => setShowRest(true);
+    window.addEventListener("load", go, { once: true });
+    return () => window.removeEventListener("load", go);
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
-    /* ---------------------------------------------------------------
-       1) Lenis = smooth scrolling
-          GSAP's ticker drives Lenis, so both always run in sync.
-    ---------------------------------------------------------------- */
+    /* Lenis = smooth scrolling, driven by GSAP's ticker */
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -66,7 +70,6 @@ export default function Portfolio() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
-    /* Navbar links glide to their section */
     const onClick = (e) => {
       const link = e.target.closest('a[href^="#"]');
       if (!link) return;
@@ -81,19 +84,14 @@ export default function Portfolio() {
     };
     root.addEventListener("click", onClick);
 
-    /* ---------------------------------------------------------------
-       2) GSAP = animation
-    ---------------------------------------------------------------- */
     const ctx = gsap.context(() => {
-      // Scroll range for the hero: from the top until it has left the screen
       const heroScroll = {
         trigger: "#home",
         start: "top top",
         end: "bottom top",
-        scrub: true, // animation follows the scrollbar
+        scrub: true,
       };
 
-      // Scroll range for the whole page
       const pageScroll = {
         trigger: root,
         start: "top top",
@@ -105,7 +103,6 @@ export default function Portfolio() {
       const intro = gsap.timeline({
         defaults: { ease: "power3.out" },
         onComplete: () => {
-          // Created after the intro, so the two never fight over "opacity"
           ctx.add(() => {
             gsap.to(".pf-hero__left", {
               x: -120,
@@ -133,9 +130,7 @@ export default function Portfolio() {
           0.35
         );
 
-      /* B) PARALLAX ON THE PHOTO (scroll)
-            The photo moves slower than the page and grows a little,
-            the glow behind it moves up faster. Different speeds = depth. */
+      /* B) Parallax on the photo (scroll) */
       gsap.to(".pf-hero__photo", {
         yPercent: 16,
         scale: 1.12,
@@ -150,30 +145,17 @@ export default function Portfolio() {
         scrollTrigger: heroScroll,
       });
 
-      /* C) Background lights travel across the page while scrolling */
-      BACKGROUND_ANIMATIONS.forEach(({ selector, x, y }) => {
-        gsap.to(selector, { x, y, ease: "none", scrollTrigger: pageScroll });
-      });
-
-      /* D) Sections fade up when they come into view */
-      gsap.utils.toArray(".pf-section:not(.pf-projects-wrapper)").forEach((section) => {
-        gsap.from(section, {
-          y: 48,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            once: true,
-          },
+      /* C) Background lights: desktop only, and not for reduced-motion users.
+            Blurred blobs moving on a phone are the most expensive part of the page. */
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        BACKGROUND_ANIMATIONS.forEach(({ selector, x, y }) => {
+          gsap.to(selector, { x, y, ease: "none", scrollTrigger: pageScroll });
         });
       });
     }, root);
 
-    /* ---------------------------------------------------------------
-       3) PARALLAX ON THE PHOTO (mouse) - only on devices with a mouse
-    ---------------------------------------------------------------- */
+    /* Parallax on the photo (mouse), only on devices with a mouse */
     let onMove;
     if (window.matchMedia("(pointer: fine)").matches) {
       const photo = root.querySelector(".pf-hero__photo");
@@ -182,11 +164,11 @@ export default function Portfolio() {
       const glowX = gsap.quickTo(glow, "x", { duration: 1.2, ease: "power3.out" });
 
       onMove = (e) => {
-        const nx = e.clientX / window.innerWidth - 0.5; // -0.5 .. 0.5
-        photoX(nx * -28); // photo moves a little against the mouse
-        glowX(nx * 50); // glow moves more, so it feels further away
+        const nx = e.clientX / window.innerWidth - 0.5;
+        photoX(nx * -28);
+        glowX(nx * 50);
       };
-      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointermove", onMove, { passive: true });
     }
 
     return () => {
@@ -202,15 +184,12 @@ export default function Portfolio() {
     <>
       <Signature />
       <div className="pf" ref={rootRef}>
-        {/* Animated background: drifting red lights, vignette and grain */}
         <div className="pf-bg" aria-hidden="true">
           <span className="pf-bg__blob pf-bg__blob--a" />
           <span className="pf-bg__blob pf-bg__blob--b" />
           <span className="pf-bg__blob pf-bg__blob--c" />
           <span className="pf-bg__grain" />
         </div>
-
-        {/* Navbar: logo left, links right */}
 
         <Navbar
           name="Shivam."
@@ -221,8 +200,6 @@ export default function Portfolio() {
           }}
         />
 
-
-        {/* Hero: text left, photo in the middle, text right */}
         <section id="home" className="pf-hero">
           <div className="pf-hero__glow" aria-hidden="true" />
 
@@ -237,10 +214,13 @@ export default function Portfolio() {
             </p>
           </div>
 
+          {/* This photo is the LCP element: load it first, don't lazy-load it */}
           <img
             className="pf-hero__photo"
             src={mePhoto}
             alt={`${NAME}, ${ROLE}`}
+            fetchPriority="high"
+            decoding="async"
           />
 
           <div className="pf-hero__right">
@@ -256,69 +236,11 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* About renders its own <section id="about"> */}
-        <About />
-
-        <section className="pf-projects-wrapper">
-          <Projects />
-        </section>
-
-        {/* Skills stays pinned while Freelance slides over it */}
-        <ScrollPortal under={<Skills />} over={<Freelance />} />
-
-        <section id="contact" className="pf-section">
-          <SectionHeading
-            label="Get in touch"
-            title={
-              <>
-                <SignalType
-                  text="Let's build "
-                  as="span"
-                  color="#fff3f1"
-                  glowColor="#ff5a4f"
-                  unlit="outline"
-                  flickers={3}
-                  stagger={0.05}
-                  trigger="view"
-                  instability={0}
-                  loop={false}
-                  interference={1}
-                />
-                <SignalType
-                  text="something."
-                  as="span"
-                  className="contact-signal-italic"
-                  color="#fff3f1"
-                  glowColor="#ff5a4f"
-                  unlit="outline"
-                  flickers={3}
-                  stagger={0.05}
-                  trigger="view"
-                  instability={0}
-                  loop={false}
-                  interference={1}
-                />
-              </>
-            }
-            text="Open to full stack roles, internships and freelance."
-          />
-
-          <div className="pf-hero__actions">
-            <a className="pf-btn pf-btn--solid" href="mailto:you@example.com">
-              Email me
-            </a>
-            <a
-              className="pf-btn"
-              href="https://linkedin.com/in/shivam-bhardwaj-a90539253"
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn
-            </a>
-          </div>
-        </section>
-
-        <Footer />
+        {showRest && (
+          <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
+            <BelowFold />
+          </Suspense>
+        )}
       </div>
     </>
   );
