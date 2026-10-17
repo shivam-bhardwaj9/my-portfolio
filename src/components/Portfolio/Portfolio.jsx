@@ -6,7 +6,7 @@ import "./Portfolio.css";
 import Signature from "../SignatureLoader/SignatureLoader.jsx";
 import TextMorph from "../TextMorph/TextMorph.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
-import mePhoto from "../../assets/me.png";
+import mePhoto from "../../assets/me.webp";
 
 // Everything below the hero is a separate chunk, loaded after the page has loaded
 const BelowFold = lazy(() => import("./BelowFold.jsx"));
